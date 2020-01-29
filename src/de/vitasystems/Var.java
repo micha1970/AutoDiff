@@ -2,21 +2,24 @@ package de.vitasystems;
 
 import java.util.Optional;
 
+import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
+
+@EqualsAndHashCode(of = {"name"})
+@RequiredArgsConstructor
 public class Var implements Evaluatable {
 	private final String name;
 	private Optional<Double> val;
 	
-	public Var(String name) {
-		this.name = name;
+	@Override
+	public Double eval(Ctx ctx) {
+		Double theValue = val.orElseThrow(() -> new IllegalArgumentException());
+		ctx.put(this, theValue);
+		return theValue;
 	}
 
 	@Override
-	public Double eval() {
-		return val.orElseThrow(() -> new IllegalArgumentException());
-	}
-
-	@Override
-	public Double forward(Var var) {
+	public Double forward(Var var, Ctx ctx) {
 		return this.equals(var) ? 1d : 0d;
 	}
 	
@@ -24,19 +27,28 @@ public class Var implements Evaluatable {
 		this.val = Optional.of(val);
 	}
 	
-	public boolean equals(Object obj) {
-		if(obj == null || !(obj instanceof Var))
-			return false;
-		return ((Var) obj).name.equals(this.name);
-	}
-	
-	public int hashCode() {
-		return name.hashCode();
+	@Override
+	public Ctx backward(Double partGradient, Ctx ctx) {
+		ctx.putGrad(this, d -> partGradient + d);
+		return ctx;
 	}
 
 	@Override
-	public Double backward(Gradient g) {
-		// TODO Auto-generated method stub
-		return null;
+	public Evaluatable symbolic(Var var, Ctx ctx) {
+		return ctx.newConst(1d);
+	}
+
+	@Override
+	public String toString() {
+		return name;
 	}
 }
+
+
+
+
+
+
+
+
+
