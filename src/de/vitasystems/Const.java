@@ -1,11 +1,14 @@
 package de.vitasystems;
 
+import de.vitasystems.func.visitor.Visitor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @EqualsAndHashCode
 @RequiredArgsConstructor
 public class Const implements Evaluatable {
+	@Getter
 	private final Double val; 
 	
 	@Override
@@ -29,10 +32,10 @@ public class Const implements Evaluatable {
 	public Evaluatable symbolic(Var var, Ctx ctx) {
 		return ctx.newConst(0d);
 	}
-
+	
 	@Override
-	public String toString() {
-		String x = val.toString();
-		return val.toString();
+	public <T> T accept(Visitor<T> visitor) {
+		return visitor.visitConst(this);
 	}
+
 }

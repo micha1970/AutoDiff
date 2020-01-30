@@ -2,12 +2,15 @@ package de.vitasystems;
 
 import java.util.Optional;
 
+import de.vitasystems.func.visitor.Visitor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @EqualsAndHashCode(of = {"name"})
 @RequiredArgsConstructor
 public class Var implements Evaluatable {
+	@Getter
 	private final String name;
 	private Optional<Double> val;
 	
@@ -35,13 +38,15 @@ public class Var implements Evaluatable {
 
 	@Override
 	public Evaluatable symbolic(Var var, Ctx ctx) {
-		return ctx.newConst(1d);
+		return ctx.newConst(this.equals(var) ? 1d : 0d);
 	}
-
+	
 	@Override
-	public String toString() {
-		return name;
-	}
+	public <T> T accept(Visitor<T> visitor) {
+		return visitor.visitVar(this);
+	}	
+
+
 }
 
 

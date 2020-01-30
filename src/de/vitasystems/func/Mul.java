@@ -3,9 +3,13 @@ package de.vitasystems.func;
 import de.vitasystems.Ctx;
 import de.vitasystems.Evaluatable;
 import de.vitasystems.Var;
+import de.vitasystems.func.visitor.Visitor;
+import lombok.Getter;
 
 public class Mul implements Evaluatable {
-	private final Evaluatable left; 
+	@Getter
+	private final Evaluatable left;
+	@Getter
 	private final Evaluatable right;
 	
 	public Mul(Evaluatable left, Evaluatable right) {
@@ -43,9 +47,9 @@ public class Mul implements Evaluatable {
 		Evaluatable res2 = new Mul(left, right.symbolic(var, ctx));
 		return new Add(res1, res2);
 	}
-
+	
 	@Override
-	public String toString() {
-		return left.toString() + " * " + right.toString();
+	public <T> T accept(Visitor<T> visitor) {
+		return visitor.visitMul(this);
 	}
 }
