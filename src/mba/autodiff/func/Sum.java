@@ -1,6 +1,6 @@
 package mba.autodiff.func;
 
-import java.util.Optional;
+import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -18,7 +18,13 @@ public class Sum implements Evaluatable {
 		IntStream.range(1, summands.length + 1).forEach(i -> this.summands[i] = summands[i]);
 	}
 	
+	public Sum(List<Evaluatable> summands) {
+		this(summands.toArray(new Evaluatable[] {}));
+	}
+	
 	private Sum(Evaluatable...summands) {
+		if(summands.length == 0)
+			throw new IllegalArgumentException();
 		this.summands = summands;
 	}
 
