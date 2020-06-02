@@ -7,7 +7,7 @@ import mba.autodiff.func.visitor.Visitor;
 
 @EqualsAndHashCode
 @RequiredArgsConstructor
-public class Const implements Evaluatable {
+public class Const implements Evaluatable<Double> {
 	@Getter
 	private final Double val; 
 	
@@ -29,12 +29,12 @@ public class Const implements Evaluatable {
 	}
 
 	@Override
-	public Evaluatable symbolic(Var var, Ctx ctx) {
+	public Evaluatable<Double> symbolic(Var var, Ctx ctx) {
 		return ctx.newConst(0d);
 	}
 	
 	@Override
-	public <T> T accept(Visitor<T> visitor, Evaluatable parent) {
+	public <T> T accept(Visitor<T> visitor, Evaluatable<?> parent) {
 		return visitor.visitConst(this, parent);
 	}
 

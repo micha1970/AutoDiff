@@ -1,8 +1,9 @@
 package mba.autodiff;
 
 import lombok.Getter;
+import mba.autodiff.func.visitor.Visitor;
 
-public class Matrix {
+public class Matrix implements Evaluatable<Matrix> {
 	@Getter
 	private final String name;
 	@Getter
@@ -11,7 +12,7 @@ public class Matrix {
 	private final int col;
 	
 	@Getter
-	protected Evaluatable[][] lookup ;
+	protected Evaluatable<Double>[][] lookup ;
 	
 	public Matrix(String name, int row, int col) {
 		this.name = name;
@@ -19,20 +20,11 @@ public class Matrix {
 		this.col = col;
 	}
 	
-	private static final String NAME_TEMPL = "%s_%d_%d";
-	
 	public void initVar(Ctx ctx) {
 		lookup = new Evaluatable[row][col];
-		for(int r = 0; r < row; r++) for(int c = 0; c < col; c++) {
-			String varName = String.format(NAME_TEMPL, name, r, c);
-			Var var = ctx.newVar(varName);
-//static
-var.bind(2.0);
-			lookup[r][c] = var;
-		}
 	}
 	
-	public void setEvaluatable(int row, int col, Evaluatable eval) {
+	public void setEvaluatable(int row, int col, Evaluatable<Double> eval) {
 		lookup[row][col] = eval;
 	}
 	
@@ -47,5 +39,25 @@ var.bind(2.0);
 		}
 		
 		return multiplied;       
+	}
+
+	@Override
+	public Matrix forward(Var var, Ctx ctx) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Ctx backward(Double partGradient, Ctx g) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Evaluatable<Double> symbolic(Var var, Ctx ctx) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public <T> T accept(Visitor<T> visitor, Evaluatable<?> parent) {
+		throw new UnsupportedOperationException();
 	}
 }

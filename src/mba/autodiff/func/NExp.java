@@ -8,10 +8,10 @@ import mba.autodiff.func.visitor.Visitor;
 /**
  * Represents the exponentiation by e.
  */
-public class NExp implements Evaluatable {
-	private final Evaluatable exp;
+public class NExp implements Evaluatable<Double> {
+	private final Evaluatable<Double> exp;
 	
-	public NExp(Evaluatable exp) {
+	public NExp(Evaluatable<Double> exp) {
 		this.exp = exp;
 	}
 
@@ -35,12 +35,12 @@ public class NExp implements Evaluatable {
 	}
 
 	@Override
-	public Evaluatable symbolic(Var var, Ctx ctx) {
+	public Evaluatable<Double> symbolic(Var var, Ctx ctx) {
 		return new Mul(exp.symbolic(var, ctx), this);
 	}
 
 	@Override
-	public <T> T accept(Visitor<T> visitor, Evaluatable parent) {
+	public <T> T accept(Visitor<T> visitor, Evaluatable<?> parent) {
 		return visitor.visitNExp(this, parent);
 	}
 }

@@ -6,11 +6,11 @@ import mba.autodiff.Evaluatable;
 import mba.autodiff.Var;
 import mba.autodiff.func.visitor.Visitor;
 
-public class Pow implements Evaluatable {
-	private final Evaluatable base;
+public class Pow implements Evaluatable<Double> {
+	private final Evaluatable<Double> base;
 	private final Double exp;
 	
-	public Pow(Evaluatable base, Double exp) {
+	public Pow(Evaluatable<Double> base, Double exp) {
 		this.base = base;
 		this.exp = exp;
 	}
@@ -35,12 +35,12 @@ public class Pow implements Evaluatable {
 	}
 
 	@Override
-	public Evaluatable symbolic(Var var, Ctx ctx) {
+	public Evaluatable<Double> symbolic(Var var, Ctx ctx) {
 		return new Mul(new Const(exp - 1), base.symbolic(var, ctx));
 	}
 	
 	@Override
-	public <T> T accept(Visitor<T> visitor, Evaluatable parent) {
+	public <T> T accept(Visitor<T> visitor, Evaluatable<?> parent) {
 		return visitor.visitPow(this, parent);
 	}	
 

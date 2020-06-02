@@ -16,47 +16,47 @@ public class IsNull implements Visitor<Boolean> {
 		return new IsNull();
 	}
 	
-	public Boolean isNull(Evaluatable e, Evaluatable parent) {
+	public Boolean isNull(Evaluatable<?> e, Evaluatable<?> parent) {
 		return e.accept(this, parent);
 	}
 
 	@Override
-	public Boolean visitAdd(Add f, Evaluatable parent) {
+	public Boolean visitAdd(Add f, Evaluatable<?> parent) {
 		return f.getLeft().accept(this, parent) && f.getRight().accept(this, parent);
 	}
 
 	@Override
-	public Boolean visitCos(Cos f, Evaluatable parent) {
+	public Boolean visitCos(Cos f, Evaluatable<?> parent) {
 		return f.getE().accept(this, parent);
 	}
 
 	@Override
-	public Boolean visitMul(Mul f, Evaluatable parent) {
+	public Boolean visitMul(Mul f, Evaluatable<?> parent) {
 		return f.getLeft().accept(this, parent) || f.getRight().accept(this, parent);
 	}
 
 	@Override
-	public Boolean visitNExp(NExp f, Evaluatable parent) {
+	public Boolean visitNExp(NExp f, Evaluatable<?> parent) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Boolean visitPow(Pow f, Evaluatable parent) {
+	public Boolean visitPow(Pow f, Evaluatable<?> parent) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Boolean visitSin(Sin f, Evaluatable parent) {
+	public Boolean visitSin(Sin f, Evaluatable<?> parent) {
 		return f.getE().accept(this, parent);
 	}
 
 	@Override
-	public Boolean visitSum(Sum f, Evaluatable parent) {
+	public Boolean visitSum(Sum f, Evaluatable<?> parent) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Boolean visitVar(Var f, Evaluatable parent) {
+	public Boolean visitVar(Var f, Evaluatable<?> parent) {
 		return false;
 	}
 

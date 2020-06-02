@@ -45,7 +45,7 @@ public class SymbolicAutoDiffTest {
 		Add addX = new Add(x, x);
 		
 		x.bind(1d);
-		System.out.println(new PrettyPrint().toSting(addX.symbolic(x, ctx)));
+		System.out.println(new PrettyPrint().toString(addX.symbolic(x, ctx)));
 	}
 	
 	@Test
@@ -54,7 +54,7 @@ public class SymbolicAutoDiffTest {
 		Add addX = new Add(x, x);
 		
 		x.bind(4d);
-		System.out.println(new PrettyPrint().toSting(addX.symbolic(x, ctx)));
+		System.out.println(new PrettyPrint().toString(addX.symbolic(x, ctx)));
 	}
 	
 	@Test
@@ -74,7 +74,7 @@ public class SymbolicAutoDiffTest {
 		Add addX = new Add(c, x);
 		
 		x.bind(2d);
-		System.out.println(new PrettyPrint().toSting(addX.symbolic(x, ctx)));
+		System.out.println(new PrettyPrint().toString(addX.symbolic(x, ctx)));
 	}
 	
 	@Test
@@ -101,7 +101,7 @@ public class SymbolicAutoDiffTest {
 		Mul mulX = new Mul(x, x);
 		
 		x.bind(2d);
-		System.out.println(new PrettyPrint().toSting(mulX.symbolic(x, ctx)));
+		System.out.println(new PrettyPrint().toString(mulX.symbolic(x, ctx)));
 	}
 	
 	@Test
@@ -110,7 +110,7 @@ public class SymbolicAutoDiffTest {
 		Mul mulX = new Mul(x, x);
 		
 		x.bind(3d);
-		System.out.println(new PrettyPrint().toSting(mulX.symbolic(x, ctx)));
+		System.out.println(new PrettyPrint().toString(mulX.symbolic(x, ctx)));
 	}
 	
 	@Test
@@ -144,7 +144,7 @@ public class SymbolicAutoDiffTest {
 		x.bind(2d);
 		y.bind(3d);
 		
-		System.out.println(new PrettyPrint().toSting(sin.symbolic(x, ctx)));
+		System.out.println(new PrettyPrint().toString(sin.symbolic(x, ctx)));
 	}
 	
 	
@@ -162,7 +162,7 @@ public class SymbolicAutoDiffTest {
 		x.bind(2d);
 		y.bind(3d);
 		
-		System.out.println(new PrettyPrint().toSting(sin.symbolic(x, ctx)));
+		System.out.println(new PrettyPrint().toString(sin.symbolic(x, ctx)));
 	}
 	
 	

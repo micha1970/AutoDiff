@@ -7,11 +7,11 @@ import mba.autodiff.Evaluatable;
 import mba.autodiff.Var;
 import mba.autodiff.func.visitor.Visitor;
 
-public class Cos implements Evaluatable {
+public class Cos implements Evaluatable<Double> {
 	@Getter
-	private final Evaluatable e; 
+	private final Evaluatable<Double> e; 
 	
-	public Cos(Evaluatable e) {
+	public Cos(Evaluatable<Double> e) {
 		this.e = e;
 	}
 
@@ -34,13 +34,13 @@ public class Cos implements Evaluatable {
 	}
 
 	@Override
-	public Evaluatable symbolic(Var var, Ctx ctx) {
+	public Evaluatable<Double> symbolic(Var var, Ctx ctx) {
 		Const minusOne = ctx.newConst(-1d);
 		return new Mul(new Mul(minusOne, e.symbolic(var, ctx)), new Sin(e));
 	}
 	
 	@Override
-	public <T> T accept(Visitor<T> visitor, Evaluatable parent) {
+	public <T> T accept(Visitor<T> visitor, Evaluatable<?> parent) {
 		return visitor.visitCos(this, parent);
 	}
 	

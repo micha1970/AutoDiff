@@ -4,25 +4,27 @@ import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import lombok.Getter;
 import mba.autodiff.Ctx;
 import mba.autodiff.Evaluatable;
 import mba.autodiff.Var;
 import mba.autodiff.func.visitor.Visitor;
 
-public class Sum implements Evaluatable {
-	private final Evaluatable[] summands;
+public class Sum implements Evaluatable<Double> {
+	@Getter
+	private final Evaluatable<Double>[] summands;
 	
-	public Sum(Evaluatable summand, Evaluatable...summands) {
+	public Sum(Evaluatable<Double> summand, Evaluatable<Double>...summands) {
 		this.summands = new Evaluatable[summands.length + 1];
 		this.summands[0] = summand;
 		IntStream.range(1, summands.length + 1).forEach(i -> this.summands[i] = summands[i]);
 	}
 	
-	public Sum(List<Evaluatable> summands) {
+	public Sum(List<Evaluatable<Double>> summands) {
 		this(summands.toArray(new Evaluatable[] {}));
 	}
 	
-	private Sum(Evaluatable...summands) {
+	private Sum(Evaluatable<Double>...summands) {
 		if(summands.length == 0)
 			throw new IllegalArgumentException();
 		this.summands = summands;
@@ -51,15 +53,15 @@ public class Sum implements Evaluatable {
 	}
 
 	@Override
-	public Evaluatable symbolic(Var var, Ctx ctx) {
-		Evaluatable[] evaluatables = Stream.of(summands)
+	public Evaluatable<Double> symbolic(Var var, Ctx ctx) {
+		Evaluatable<Double>[] evaluatables = Stream.of(summands)
 			.map(s -> s.symbolic(var, ctx))
 			.toArray(size -> new Evaluatable[size]);
 		return new Sum(evaluatables);
 	}
 	
 	@Override
-	public <T> T accept(Visitor<T> visitor, Evaluatable parent) {
+	public <T> T accept(Visitor<T> visitor, Evaluatable<?> parent) {
 		return visitor.visitSum(this, parent);
 	}
 

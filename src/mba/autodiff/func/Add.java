@@ -6,13 +6,13 @@ import mba.autodiff.Evaluatable;
 import mba.autodiff.Var;
 import mba.autodiff.func.visitor.Visitor;
 
-public class Add implements Evaluatable {
+public class Add implements Evaluatable<Double> {
 	@Getter
-	private final Evaluatable left;
+	private final Evaluatable<Double> left;
 	@Getter
-	private final Evaluatable right;
+	private final Evaluatable<Double> right;
 	
-	public Add(Evaluatable left, Evaluatable right) {
+	public Add(Evaluatable<Double> left, Evaluatable<Double> right) {
 		this.left = left;
 		this.right = right;
 	}
@@ -37,12 +37,12 @@ public class Add implements Evaluatable {
 	}
 
 	@Override
-	public Evaluatable symbolic(Var var, Ctx ctx) {
+	public Evaluatable<Double> symbolic(Var var, Ctx ctx) {
 		return new Add(left.symbolic(var, ctx), right.symbolic(var, ctx));
 	}
 
 	@Override
-	public <T> T accept(Visitor<T> visitor, Evaluatable parent) {
+	public <T> T accept(Visitor<T> visitor, Evaluatable<?> parent) {
 		return visitor.visitAdd(this, parent);
 	}
 }

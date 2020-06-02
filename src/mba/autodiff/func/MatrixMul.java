@@ -7,8 +7,10 @@ import lombok.Getter;
 import mba.autodiff.Ctx;
 import mba.autodiff.Evaluatable;
 import mba.autodiff.Matrix;
+import mba.autodiff.Var;
+import mba.autodiff.func.visitor.Visitor;
 
-public class MatrixMul {
+public class MatrixMul implements Evaluatable<Matrix> {
 	@Getter
 	private final Matrix left;
 	@Getter
@@ -19,36 +21,53 @@ public class MatrixMul {
 		this.right = right;
 	}
 
-	@SuppressWarnings("unused")
-	public Matrix mul(Ctx ctx) {
-		Matrix multiplied = new Matrix("xyz", left.getRow(), right.getCol());
+	private static final String NAME_TEMPL = "%s_%s";
+	
+	@Override
+	public Matrix eval(Ctx ctx) {
+		Matrix multiplied = new Matrix(String.format(NAME_TEMPL, left.getName(), right.getName()), left.getRow(), right.getCol());
 			multiplied.initVar(ctx);
 		
 		for(int r = 0; r < left.getRow(); r++) {
 			for(int s = 0; s < right.getCol(); s++) {
-				Evaluatable evaluatable = multiply(ctx, r, s, left, right);
-				Evaluatable evaluatable2 = multiplied.getLookup()[r][s];
-				multiplied.setEvaluatable(r, s, evaluatable);
-				Evaluatable[][] lookup = multiplied.getLookup();
-//				lookup[r][s] = evaluatable;
-//						= evaluatable;
-				
+				multiplied.setEvaluatable(
+					r,
+					s,
+					multiply(ctx, r, s, left, right)
+				);
 			}
 		}
 		
 		return multiplied;       
 	}
 	
-	private Evaluatable multiply(Ctx ctx, int row, int col, Matrix m1, Matrix m2) {
-		List<Evaluatable> sumands = new ArrayList<>();
-		
-		for(int s = 0; s < m2.getRow(); s++) {
-			Evaluatable left = m1.getLookup()[row][s];
-			Evaluatable right = m2.getLookup()[s][col];
-			sumands.add(new Mul(left, right));
-		}
+	private Evaluatable<Double> multiply(Ctx ctx, int row, int col, Matrix m1, Matrix m2) {
+		List<Evaluatable<Double>> sumands = new ArrayList<>();
+
+		for(int s = 0; s < m2.getRow(); s++)
+			sumands.add(new Mul(m1.getLookup()[row][s], m2.getLookup()[s][col]));
 		
 		return new Sum(sumands);
+	}
+
+	@Override
+	public Matrix forward(Var var, Ctx ctx) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Ctx backward(Double partGradient, Ctx g) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Evaluatable<Double> symbolic(Var var, Ctx ctx) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public <T> T accept(Visitor<T> visitor, Evaluatable<?> parent) {
+		throw new UnsupportedOperationException();
 	}
 }
 

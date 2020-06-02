@@ -1,5 +1,5 @@
 package mba.autodiff;
 
-public interface ForwardDifferentiable {
-	public Double forward(Var var, Ctx ctx);
+public interface ForwardDifferentiable<D> {
+	public D forward(Var var, Ctx ctx);
 }

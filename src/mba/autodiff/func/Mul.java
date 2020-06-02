@@ -6,13 +6,13 @@ import mba.autodiff.Evaluatable;
 import mba.autodiff.Var;
 import mba.autodiff.func.visitor.Visitor;
 
-public class Mul implements Evaluatable {
+public class Mul implements Evaluatable<Double> {
 	@Getter
-	private final Evaluatable left;
+	private final Evaluatable<Double> left;
 	@Getter
-	private final Evaluatable right;
+	private final Evaluatable<Double> right;
 	
-	public Mul(Evaluatable left, Evaluatable right) {
+	public Mul(Evaluatable<Double> left, Evaluatable<Double> right) {
 		this.left = left;
 		this.right = right;
 	}
@@ -42,14 +42,14 @@ public class Mul implements Evaluatable {
 	}
 
 	@Override
-	public Evaluatable symbolic(Var var, Ctx ctx) {
-		Evaluatable res1 = new Mul(right, left.symbolic(var, ctx));
-		Evaluatable res2 = new Mul(left, right.symbolic(var, ctx));
+	public Evaluatable<Double> symbolic(Var var, Ctx ctx) {
+		Evaluatable<Double> res1 = new Mul(right, left.symbolic(var, ctx));
+		Evaluatable<Double> res2 = new Mul(left, right.symbolic(var, ctx));
 		return new Add(res1, res2);
 	}
 	
 	@Override
-	public <T> T accept(Visitor<T> visitor, Evaluatable parent) {
+	public <T> T accept(Visitor<T> visitor, Evaluatable<?> parent) {
 		return visitor.visitMul(this, parent);
 	}
 }

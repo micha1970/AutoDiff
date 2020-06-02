@@ -6,11 +6,11 @@ import mba.autodiff.Evaluatable;
 import mba.autodiff.Var;
 import mba.autodiff.func.visitor.Visitor;
 
-public class Sin implements Evaluatable {
+public class Sin implements Evaluatable<Double> {
 	@Getter
-	private final Evaluatable e; 
+	private final Evaluatable<Double> e; 
 	
-	public Sin(Evaluatable e) {
+	public Sin(Evaluatable<Double> e) {
 		this.e = e;
 	}
 
@@ -33,12 +33,12 @@ public class Sin implements Evaluatable {
 	}
 
 	@Override
-	public Evaluatable symbolic(Var var, Ctx ctx) {
+	public Evaluatable<Double> symbolic(Var var, Ctx ctx) {
 		return new Mul(e.symbolic(var, ctx), new Cos(e));
 	}
 
 	@Override
-	public <T> T accept(Visitor<T> visitor, Evaluatable parent) {
+	public <T> T accept(Visitor<T> visitor, Evaluatable<?> parent) {
 		return visitor.visitSin(this, parent);
 	}
 }
