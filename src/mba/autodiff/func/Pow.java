@@ -3,6 +3,7 @@ package mba.autodiff.func;
 import mba.autodiff.Const;
 import mba.autodiff.Ctx;
 import mba.autodiff.Evaluatable;
+import mba.autodiff.Precedence;
 import mba.autodiff.Var;
 import mba.autodiff.func.visitor.Visitor;
 
@@ -40,8 +41,13 @@ public class Pow implements Evaluatable<Double> {
 	}
 	
 	@Override
-	public <T> T accept(Visitor<T> visitor, Evaluatable<?> parent) {
+	public <T> T accept(Visitor<T> visitor, Precedence parent) {
 		return visitor.visitPow(this, parent);
-	}	
+	}
+	
+	@Override
+	public int precedence() {
+		return 100;
+	}
 
 }

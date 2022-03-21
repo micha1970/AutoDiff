@@ -1,5 +1,7 @@
 package mba.autodiff;
 
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -49,9 +51,36 @@ public class MatrixTest {
 		MatrixMul matrixMul = new MatrixMul(m1, m2);
 		Matrix mul = matrixMul.eval(ctx);
 		
+		MatrixFunc matricFunc = new MatrixFunc(mul, e -> new Sin(e));
+		mul = matricFunc.eval(ctx);
+		final Matrix fmul = mul;
+		PrettyPrint pp = new PrettyPrint();
 		
-
-//		MatrixFunc matrixFunc = new MatrixFunc(mul, e -> new Sin(e));
+		
+		Stream<Var> stream = m1.getFlat().stream();
+		
+		@SuppressWarnings("unused")
+		long count = stream
+			.filter(x -> true)
+			.peek((Var v) -> {
+				System.out.println();
+				for(int r = 0; r < fmul.getCol(); r++) {
+					for(int c = 0; c < fmul.getCol(); c++) {
+//						Double forward = fmul.getLookup()[r][c].forward(v, ctx);
+//						System.out.print(pp.toString(fmul.getLookup()[r][c]) + "   ~   ");
+						Evaluatable<Double> symbolic = fmul.getLookup()[r][c].symbolic(v, ctx);
+						System.out.println("(d/d"+ v.getName() +  ")M[" + r + "][" + c + "] = " + pp.toString(symbolic));
+					}
+				}
+			})
+			.count();
+		
+//		for(int r = 0; r < mul.getCol(); r++)
+//			for(int c = 0; c < mul.getCol(); c++) {
+//				System.out.print(pp.toString(mul.getLookup()[r][c]) + "   ~   ");
+//				System.out.println("M[" + r + "][" + c + "] = " + mul.getLookup()[r][c].eval(ctx));
+//			}
+		
 		System.out.println("");
 	}
 	

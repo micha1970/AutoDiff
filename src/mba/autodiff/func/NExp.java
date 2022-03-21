@@ -2,6 +2,7 @@ package mba.autodiff.func;
 
 import mba.autodiff.Ctx;
 import mba.autodiff.Evaluatable;
+import mba.autodiff.Precedence;
 import mba.autodiff.Var;
 import mba.autodiff.func.visitor.Visitor;
 
@@ -40,7 +41,7 @@ public class NExp implements Evaluatable<Double> {
 	}
 
 	@Override
-	public <T> T accept(Visitor<T> visitor, Evaluatable<?> parent) {
+	public <T> T accept(Visitor<T> visitor, Precedence parent) {
 		return visitor.visitNExp(this, parent);
 	}
 }

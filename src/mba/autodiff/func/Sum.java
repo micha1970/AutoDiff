@@ -7,10 +7,16 @@ import java.util.stream.Stream;
 import lombok.Getter;
 import mba.autodiff.Ctx;
 import mba.autodiff.Evaluatable;
+import mba.autodiff.Precedence;
 import mba.autodiff.Var;
 import mba.autodiff.func.visitor.Visitor;
 
 public class Sum implements Evaluatable<Double> {
+	@Override
+	public int precedence() {
+		return 10;
+	}
+
 	@Getter
 	private final Evaluatable<Double>[] summands;
 	
@@ -61,7 +67,7 @@ public class Sum implements Evaluatable<Double> {
 	}
 	
 	@Override
-	public <T> T accept(Visitor<T> visitor, Evaluatable<?> parent) {
+	public <T> T accept(Visitor<T> visitor, Precedence parent) {
 		return visitor.visitSum(this, parent);
 	}
 

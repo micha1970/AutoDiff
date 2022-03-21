@@ -3,6 +3,7 @@ package mba.autodiff.func;
 import lombok.Getter;
 import mba.autodiff.Ctx;
 import mba.autodiff.Evaluatable;
+import mba.autodiff.Precedence;
 import mba.autodiff.Var;
 import mba.autodiff.func.visitor.Visitor;
 
@@ -49,7 +50,12 @@ public class Mul implements Evaluatable<Double> {
 	}
 	
 	@Override
-	public <T> T accept(Visitor<T> visitor, Evaluatable<?> parent) {
+	public <T> T accept(Visitor<T> visitor, Precedence parent) {
 		return visitor.visitMul(this, parent);
+	}
+	
+	@Override
+	public int precedence() {
+		return 10;
 	}
 }

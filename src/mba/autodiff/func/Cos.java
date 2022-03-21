@@ -4,6 +4,7 @@ import lombok.Getter;
 import mba.autodiff.Const;
 import mba.autodiff.Ctx;
 import mba.autodiff.Evaluatable;
+import mba.autodiff.Precedence;
 import mba.autodiff.Var;
 import mba.autodiff.func.visitor.Visitor;
 
@@ -40,8 +41,13 @@ public class Cos implements Evaluatable<Double> {
 	}
 	
 	@Override
-	public <T> T accept(Visitor<T> visitor, Evaluatable<?> parent) {
+	public <T> T accept(Visitor<T> visitor, Precedence parent) {
 		return visitor.visitCos(this, parent);
+	}
+	
+	@Override
+	public int precedence() {
+		return 5;
 	}
 	
 }

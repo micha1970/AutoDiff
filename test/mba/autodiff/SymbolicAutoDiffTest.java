@@ -4,13 +4,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import mba.autodiff.Const;
-import mba.autodiff.Ctx;
-import mba.autodiff.Var;
 import mba.autodiff.func.Add;
 import mba.autodiff.func.Cos;
 import mba.autodiff.func.Mul;
 import mba.autodiff.func.Sin;
+import mba.autodiff.func.visitor.PrettyPrint;
 import mba.autodiff.func.visitor.PrettyPrint;
 
 public class SymbolicAutoDiffTest {

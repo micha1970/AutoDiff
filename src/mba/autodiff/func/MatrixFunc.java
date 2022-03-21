@@ -6,6 +6,7 @@ import lombok.Getter;
 import mba.autodiff.Ctx;
 import mba.autodiff.Evaluatable;
 import mba.autodiff.Matrix;
+import mba.autodiff.Precedence;
 import mba.autodiff.Var;
 import mba.autodiff.func.visitor.Visitor;
 
@@ -30,7 +31,7 @@ public class MatrixFunc implements Evaluatable<Matrix> {
 		for(int r = 0; r < matrix.getRow(); r++) {
 			for(int s = 0; s < matrix.getCol(); s++) {
 				Evaluatable<Double> entry = matrix.getLookup()[r][s];
-				funcMatrix.setEvaluatable(r, r, funcConstructor.apply(entry));
+				funcMatrix.setEvaluatable(r, s, funcConstructor.apply(entry));
 			}
 		}
 		
@@ -53,7 +54,7 @@ public class MatrixFunc implements Evaluatable<Matrix> {
 	}
 
 	@Override
-	public <T> T accept(Visitor<T> visitor, Evaluatable<?> parent) {
+	public <T> T accept(Visitor<T> visitor, Precedence parent) {
 		throw new UnsupportedOperationException();
 	}
 }

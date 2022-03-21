@@ -34,7 +34,7 @@ public class Const implements Evaluatable<Double> {
 	}
 	
 	@Override
-	public <T> T accept(Visitor<T> visitor, Evaluatable<?> parent) {
+	public <T> T accept(Visitor<T> visitor, Precedence parent) {
 		return visitor.visitConst(this, parent);
 	}
 
