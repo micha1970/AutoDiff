@@ -34,11 +34,11 @@ public class PrettyPrint implements Visitor<Optional<String>> {
 		Evaluatable<?> l = f.getLeft();
 		Evaluatable<?> r = f.getRight();
 		
-		if(IsNull.isNull(l) & IsNull.isNull(r))
+		if(IsNull.isNull(l) && IsNull.isNull(r))
 			return Optional.empty();
-		else if(IsNull.isNull(l) & !IsNull.isNull(r))
+		else if(IsNull.isNull(l) && !IsNull.isNull(r))
 			builder.append(r.accept(this, f).get());
-		else if(!IsNull.isNull(l) & IsNull.isNull(r))
+		else if(!IsNull.isNull(l) && IsNull.isNull(r))
 			builder.append(l.accept(this, f).get());
 		else if(!IsNull.isNull(l) && !IsNull.isNull(r)) {
 			if(IsOne.isOne(l) && IsOne.isOne(r)) {
@@ -64,11 +64,11 @@ public class PrettyPrint implements Visitor<Optional<String>> {
 		
 		StringBuilder builder = new StringBuilder();
 		
-		if(IsNull.isNull(l) & IsNull.isNull(r))
+		if(IsNull.isNull(l) && IsNull.isNull(r))
 			return Optional.empty();
-		else if(IsNull.isNull(l) & !IsNull.isNull(r))
+		else if(IsNull.isNull(l) && !IsNull.isNull(r))
 			builder.append(r.accept(this, add).get());
-		else if(!IsNull.isNull(l) & IsNull.isNull(r))
+		else if(!IsNull.isNull(l) && IsNull.isNull(r))
 			builder.append(l.accept(this, add).get());
 		else if(!IsNull.isNull(l) && !IsNull.isNull(r)) {
 			if(parent.precedence() >= add.precedence())
