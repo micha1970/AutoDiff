@@ -15,9 +15,9 @@ import mba.autodiff.func.Sin;
 import mba.autodiff.func.Sum;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class IsOne implements Visitor<Boolean> {
+public class One implements Visitor<Boolean> {
 	public static boolean isOne(Evaluatable<?> e) {
-		return new IsOne().isNull(e, null);
+		return new One().isNull(e, null);
 	}
 	
 	public Boolean isNull(Evaluatable<?> e, Evaluatable<?> parent) {

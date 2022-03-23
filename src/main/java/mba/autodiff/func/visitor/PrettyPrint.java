@@ -34,18 +34,18 @@ public class PrettyPrint implements Visitor<Optional<String>> {
 		Evaluatable<?> l = f.getLeft();
 		Evaluatable<?> r = f.getRight();
 		
-		if(IsNull.isNull(l) && IsNull.isNull(r))
+		if(Null.isNull(l) && Null.isNull(r))
 			return Optional.empty();
-		else if(IsNull.isNull(l) && !IsNull.isNull(r))
+		else if(Null.isNull(l) && !Null.isNull(r))
 			builder.append(r.accept(this, f).get());
-		else if(!IsNull.isNull(l) && IsNull.isNull(r))
+		else if(!Null.isNull(l) && Null.isNull(r))
 			builder.append(l.accept(this, f).get());
-		else if(!IsNull.isNull(l) && !IsNull.isNull(r)) {
-			if(IsOne.isOne(l) && IsOne.isOne(r)) {
+		else if(!Null.isNull(l) && !Null.isNull(r)) {
+			if(One.isOne(l) && One.isOne(r)) {
 				builder.append("1");
-			} else if(IsOne.isOne(l)) {
+			} else if(One.isOne(l)) {
 				builder.append(r.accept(this, f).get());
-			} else if(IsOne.isOne(r)) {
+			} else if(One.isOne(r)) {
 				builder.append(l.accept(this, f).get());
 			} else {
 				if(parent.precedence() >= f.precedence())
@@ -64,13 +64,13 @@ public class PrettyPrint implements Visitor<Optional<String>> {
 		
 		StringBuilder builder = new StringBuilder();
 		
-		if(IsNull.isNull(l) && IsNull.isNull(r))
+		if(Null.isNull(l) && Null.isNull(r))
 			return Optional.empty();
-		else if(IsNull.isNull(l) && !IsNull.isNull(r))
+		else if(Null.isNull(l) && !Null.isNull(r))
 			builder.append(r.accept(this, add).get());
-		else if(!IsNull.isNull(l) && IsNull.isNull(r))
+		else if(!Null.isNull(l) && Null.isNull(r))
 			builder.append(l.accept(this, add).get());
-		else if(!IsNull.isNull(l) && !IsNull.isNull(r)) {
+		else if(!Null.isNull(l) && !Null.isNull(r)) {
 			if(parent.precedence() >= add.precedence())
 				builder.append("(").append(l.accept(this, add).get()).append("+").append(r.accept(this, add).get()).append(")");
 			else
