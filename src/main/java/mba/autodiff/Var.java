@@ -32,7 +32,7 @@ public class Var implements Evaluatable<Double> {
 	
 	@Override
 	public Ctx backward(Double partGradient, Ctx ctx) {
-		ctx.putGrad(this, d -> partGradient + d);
+		ctx.putGrad(this, partGradient);
 		return ctx;
 	}
 

@@ -5,10 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import mba.autodiff.Const;
-import mba.autodiff.Ctx;
-import mba.autodiff.Var;
 import mba.autodiff.func.Add;
+import mba.autodiff.func.Cos;
 import mba.autodiff.func.Mul;
 
 public class BackwardAutoDiffTest {
@@ -88,4 +86,28 @@ public class BackwardAutoDiffTest {
 		mulX.backward(1d, ctx);
 		Assertions.assertEquals(3d, ctx.valueOfGrad(x));
 		Assertions.assertEquals(2d, ctx.valueOfGrad(y));
-	}}
+	}
+	
+	@Test
+	public void cos() {
+		ctx = Ctx.newCtx();
+		Var x = ctx.newVar("x");
+		Var y = ctx.newVar("y");
+		Add addXY = new Add(x, y);
+		Cos cosXY = new Cos(addXY);
+		
+		x.bind(2d);
+		y.bind(3d);
+		cosXY.eval(ctx);
+		System.out.println("Forward Diff x: " + cosXY.forward(x, ctx));
+		System.out.println("Forward Diff y: " + cosXY.forward(y, ctx));
+		
+		ctx = Ctx.newCtx();
+		cosXY.backward(1d, ctx);
+		System.out.println("Backward Diff x: " + ctx.valueOfGrad(x));
+		System.out.println("Backward Diff y: " + ctx.valueOfGrad(y));
+		
+		Assertions.assertEquals(3d, ctx.valueOfGrad(x));
+		Assertions.assertEquals(2d, ctx.valueOfGrad(y));
+	}
+}

@@ -36,10 +36,14 @@ public class Ctx {
 		values.put(e, Optional.of(result));
 	}
 	
-	public void putGrad(Evaluatable e, Function<Double, Double> comp) {
-		Double currentGrad = gradients.get(e);
-		Double newGrad = comp.apply(currentGrad);
-		gradients.put(e, newGrad);
+//	public void putGrad(Evaluatable e, Function<Double, Double> comp) {
+////		Double currentGrad = gradients.get(e);
+////		Double newGrad = comp.apply(currentGrad == null ? 0d : currentGrad);
+//		Double newGrad = comp.apply(0d);
+//		gradients.put(e, newGrad);
+//	}
+	public void putGrad(Evaluatable e, Double grad) {
+		gradients.put(e, grad);
 	}
 	
 	public boolean contains(Evaluatable e) {

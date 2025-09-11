@@ -25,12 +25,12 @@ public class Cos implements Evaluatable<Double> {
 
 	@Override
 	public Double forward(Var var, Ctx ctx) {
-		return e.forward(var, ctx) * -1 * Math.sin(e.eval(ctx));
+		return e.forward(var, ctx) * -1d * Math.sin(e.eval(ctx));
 	}
 
 	@Override
 	public Ctx backward(Double partGradient, Ctx ctx) {
-		e.backward(Math.cos(e.eval(ctx)) * partGradient, ctx);
+		e.backward(-1d * Math.sin(e.eval(ctx)) * partGradient, ctx);
 		return ctx;
 	}
 

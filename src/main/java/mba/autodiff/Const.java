@@ -24,7 +24,7 @@ public class Const implements Evaluatable<Double> {
 
 	@Override
 	public Ctx backward(Double partGradient, Ctx ctx) {
-		ctx.putGrad(this, d -> 0d);
+		ctx.putGrad(this, 0d);
 		return ctx;
 	}
 
